@@ -1,3 +1,9 @@
+# 🛡️ FIAP Challenge — Cyber Defense Project
+
+> Repositório destinado à documentação técnica, Provas de Conceito (PoC) e relatórios de segurança desenvolvidos durante as etapas do **Challenge FIAP** no curso de **Defesa Cibernética** (*Ethical Hacking, Forensics & Secure DevOps*).
+
+---
+
 ## 📌 Visão Geral do Projeto
 
 O projeto consiste no desenvolvimento e implementação de estratégias de segurança cibernética ofensiva e defensiva aplicadas a problemas reais propostos pelo ecossistema acadêmico da FIAP. 
