@@ -94,7 +94,7 @@ Execução controlada via terminal demonstrando o vazamento de dados de infraest
 ```bash
 curl -i -sL https://<target-host>/metrics
 ```
-## 🔍Evidência Técnica Capturada:
+### 🔍 Evidência Técnica Capturada:
 HTTP/1.1 302 Found
 location: /metrics/
 transfer-encoding: chunked
@@ -154,3 +154,27 @@ Rotina de validação pós-mitigação via terminal:
 ```bash
 curl -o /dev/null -s -w "%{http_code}\n" https://<target-host>/metrics
 ```
+* **Critérios de Aceitação (Sucesso):** O retorno deve ser exclusivamente 401 Unauthorized, 403 Forbidden ou 404 Not Found.  
+* **Critério de Reprovação (Falha Crítica):** O retorno do código 200 OK configura persistência da vulnerabilidade e não conformidade crítica
+## 📁 8. Estrutura Sugerida do Repositório
+
+```text
+.
+├── docs/
+│   ├── relatorio-tecnico-final.pdf
+│   └── arquitetura-haproxy-tomcat.md
+├── scans/
+│   ├── scan_nmap.txt
+│   └── report_dirsearch.txt
+├── poc/
+│   ├── curl_metrics_evidence.log
+│   └── token_leak_sample.png
+├── configs/
+│   ├── haproxy_acl_fix.cfg
+│   └── web_xml_session_hardening.xml
+└── README.md
+````
+## 👤 9. Autores
+Bruno Henrique Veiga Sabino
+
+Pedro Henrique Ferrante Prado
