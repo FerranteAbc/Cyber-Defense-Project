@@ -1,0 +1,11 @@
+<!--
+  Hardening de sessão para o web.xml da aplicação Mentor Web (Apache Tomcat).
+  Corrige a ausência da flag HttpOnly no cookie de sessão ETSS
+  (ver vulnerabilidades/cookie-sem-httponly/writeup.md).
+-->
+<session-config>
+  <cookie-config>
+    <http-only>true</http-only>
+    <secure>true</secure>
+  </cookie-config>
+</session-config>

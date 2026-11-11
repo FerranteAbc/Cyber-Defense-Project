@@ -1,0 +1,26 @@
+$ curl -i -sL https://<target-host>/metrics
+
+HTTP/1.1 302 Found
+location: /metrics/
+transfer-encoding: chunked
+date: Wed, 20 May 2026 22:29:38 GMT
+strict-transport-security: max-age=31536000 includeSubDomains; preload;
+
+HTTP/1.1 200 OK
+content-type: text/plain;version=0.0.4;charset=utf-8
+transfer-encoding: chunked
+date: Wed, 20 May 2026 22:29:38 GMT
+strict-transport-security: max-age=31536000; includeSubDomains; preload;
+
+# HELP jvm_threads_current Current thread count of a JVM
+# TYPE jvm_threads_current gauge
+jvm_threads_current 169.0
+
+# HELP jvm_info JVM version info
+jvm_info{version="21.0.1+12-29", vendor="Oracle Corporation", runtime="OpenJDK Runtime Environment",} 1.0
+
+# HELP tomcat_session_active_total Number of active sessions
+tomcat_session_active_total{host="localhost", context="/devSecurityG5",} 23.0
+tomcat_session_active_total{host="localhost", context="/devMentorIntegrador",} 41.0
+
+tomcat_info{version="9.0.93.0", build="Aug 2 2024 21:24:59 UTC",} 1.0

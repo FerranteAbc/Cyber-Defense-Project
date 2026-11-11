@@ -66,13 +66,16 @@ A infraestrutura foi mapeada através da correlação entre cabeçalhos de respo
 
 * **Cookie de Sessão sem `HttpOnly` (Risco Médio):**  
   O cookie `ETSS` é enviado com a diretiva `Secure`, mas sem a flag `HttpOnly` (`Set-Cookie: ETSS=...; Path=/; Secure`). Permite que ataques de Cross-Site Scripting (XSS) capturem o token via JavaScript (`document.cookie`), viabilizando o sequestro de sessão (*Session Hijacking*).
+  **Write-up completo:** [`vulnerabilidades/cookie-sem-httponly/`](vulnerabilidades/cookie-sem-httponly/writeup.md)
 
 * **Exposição de Token de Sessão na URL (Risco Médio/Alto):**  
   O sistema transmite parâmetros sensíveis via método `GET` na URL (`?pcaes=a205de9c60d3992e6296830743168a74`) contendo hash de sessão/transação. Isso compromete a confidencialidade ao gravar o identificador em logs de servidores intermediários, proxies e no histórico do navegador.
+  **Write-up completo:** [`vulnerabilidades/token-sessao-url/`](vulnerabilidades/token-sessao-url/writeup.md)
 
 * **Ausência de Cabeçalhos de Proteção:**  
   * **Falta do `X-Frame-Options`:** Expõe as páginas ao encapsulamento em iframes, viabilizando ataques de *Clickjacking*.  
   * **Falta do `X-Content-Type-Options`:** Permite interpretação indevida de tipos MIME (*MIME Sniffing*).
+  **Write-up completo:** [`vulnerabilidades/headers-seguranca-ausentes/`](vulnerabilidades/headers-seguranca-ausentes/writeup.md)
 
 * **Desafio Metodológico (Soft 404 Dinâmico):**  
   O servidor responde com código `HTTP 200 OK` (páginas de ~25.7 KB) para requisições de arquivos inexistentes, gerando falsos positivos em ferramentas como Gobuster e exigindo validação manual.
@@ -88,6 +91,8 @@ A infraestrutura foi mapeada através da correlação entre cabeçalhos de respo
   * `/metrics/`: Endpoint de monitoramento exposto publicamente sem qualquer restrição de acesso.
 
 ### Fase 4: Prova de Conceito (PoC) — Endpoint `/metrics/`
+
+> **Write-up completo:** [`vulnerabilidades/exposicao-metrics/`](vulnerabilidades/exposicao-metrics/writeup.md) · **Arquitetura mapeada:** [`docs/arquitetura-haproxy-tomcat.md`](docs/arquitetura-haproxy-tomcat.md)
 
 Execução controlada via terminal demonstrando o vazamento de dados de infraestrutura:
 
@@ -122,12 +127,12 @@ tomcat_info{version="9.0.93.0", build="Aug 2 2024 21:24:59 UTC",} 1.0
 ```
 ## 📊 5. Classificação de Riscos (CVSS v3.1)
 
-| Vulnerabilidade | Vetor CVSS v3.1 | Score | Severidade | Prioridade |
-| :--- | :--- | :---: | :---: | :---: |
-| **Exposição de Dados Técnicos e Contextos (`/metrics/`)** | `CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N`[cite: 1] | **5.3**[cite: 1] | Média[cite: 1] | **Alta** (Facilidade de exploração e mapeamento de superfície)[cite: 1] |
-| **Exposição de Token de Sessão via URL (`?pcaes=`)** | `CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N` | **5.4** | Média | **Alta** (Vazamento de credenciais em logs) |
-| **Cookie de Sessão sem flag `HttpOnly` (`ETSS`)** | `CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:N/A:N` | **5.3** | Média | **Média** (Dependência de vetor XSS) |
-| **Ausência de Security Headers (`X-Frame-Options`)** | `CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:L/A:N` | **4.3** | Baixa | **Média** (Exposição a Clickjacking) |
+| Vulnerabilidade | Vetor CVSS v3.1 | Score | Severidade | Prioridade | Write-up |
+| :--- | :--- | :---: | :---: | :---: | :--- |
+| **Exposição de Dados Técnicos e Contextos (`/metrics/`)** | `CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N`[cite: 1] | **5.3**[cite: 1] | Média[cite: 1] | **Alta** (Facilidade de exploração e mapeamento de superfície)[cite: 1] | [`vulnerabilidades/exposicao-metrics/`](vulnerabilidades/exposicao-metrics/writeup.md) |
+| **Exposição de Token de Sessão via URL (`?pcaes=`)** | `CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N` | **5.4** | Média | **Alta** (Vazamento de credenciais em logs) | [`vulnerabilidades/token-sessao-url/`](vulnerabilidades/token-sessao-url/writeup.md) |
+| **Cookie de Sessão sem flag `HttpOnly` (`ETSS`)** | `CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:N/A:N` | **5.3** | Média | **Média** (Dependência de vetor XSS) | [`vulnerabilidades/cookie-sem-httponly/`](vulnerabilidades/cookie-sem-httponly/writeup.md) |
+| **Ausência de Security Headers (`X-Frame-Options`)** | `CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:L/A:N` | **4.3** | Baixa | **Média** (Exposição a Clickjacking) | [`vulnerabilidades/headers-seguranca-ausentes/`](vulnerabilidades/headers-seguranca-ausentes/writeup.md) |
 
 ## 🛡️ 6. Plano de Ação Técnica (Remediação)
 
@@ -156,24 +161,26 @@ curl -o /dev/null -s -w "%{http_code}\n" https://<target-host>/metrics
 ```
 * **Critérios de Aceitação (Sucesso):** O retorno deve ser exclusivamente 401 Unauthorized, 403 Forbidden ou 404 Not Found.  
 * **Critério de Reprovação (Falha Crítica):** O retorno do código 200 OK configura persistência da vulnerabilidade e não conformidade crítica
-## 📁 8. Estrutura Sugerida do Repositório
+## 📁 8. Estrutura do Repositório
 
 ```text
 .
-├── docs/
-│   ├── relatorio-tecnico-final.pdf
-│   └── arquitetura-haproxy-tomcat.md
-├── scans/
-│   ├── scan_nmap.txt
-│   └── report_dirsearch.txt
+├── vulnerabilidades/
+│   ├── exposicao-metrics/writeup.md
+│   ├── token-sessao-url/writeup.md
+│   ├── cookie-sem-httponly/writeup.md
+│   └── headers-seguranca-ausentes/writeup.md
 ├── poc/
-│   ├── curl_metrics_evidence.log
-│   └── token_leak_sample.png
+│   └── curl_metrics_evidence.log
 ├── configs/
 │   ├── haproxy_acl_fix.cfg
 │   └── web_xml_session_hardening.xml
+├── docs/
+│   └── arquitetura-haproxy-tomcat.md
 └── README.md
-````
+```
+
+> Os comandos de varredura (`Nmap`, `Dirsearch`) estão documentados na Ficha Técnica de Ferramentas (Seção 3); a saída bruta das varreduras não foi anexada a este repositório.
 ## 👤 9. Autores
 Bruno Henrique Veiga Sabino
 
