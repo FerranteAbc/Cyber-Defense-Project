@@ -132,7 +132,7 @@ tomcat_info{version="9.0.93.0", build="Aug 2 2024 21:24:59 UTC",} 1.0
 | **Exposição de Dados Técnicos e Contextos (`/metrics/`)** | `CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N`[cite: 1] | **5.3**[cite: 1] | Média[cite: 1] | **Alta** (Facilidade de exploração e mapeamento de superfície)[cite: 1] | [`vulnerabilidades/exposicao-metrics/`](vulnerabilidades/exposicao-metrics/writeup.md) |
 | **Exposição de Token de Sessão via URL (`?pcaes=`)** | `CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N` | **5.4** | Média | **Alta** (Vazamento de credenciais em logs) | [`vulnerabilidades/token-sessao-url/`](vulnerabilidades/token-sessao-url/writeup.md) |
 | **Cookie de Sessão sem flag `HttpOnly` (`ETSS`)** | `CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:N/A:N` | **5.3** | Média | **Média** (Dependência de vetor XSS) | [`vulnerabilidades/cookie-sem-httponly/`](vulnerabilidades/cookie-sem-httponly/writeup.md) |
-| **Ausência de Security Headers (`X-Frame-Options`)** | `CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:L/A:N` | **4.3** | Baixa | **Média** (Exposição a Clickjacking) | [`vulnerabilidades/headers-seguranca-ausentes/`](vulnerabilidades/headers-seguranca-ausentes/writeup.md) |
+| **Ausência de Security Headers (`X-Frame-Options`)** | `CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:L/A:N` | **4.3** | Média | **Média** (Exposição a Clickjacking) | [`vulnerabilidades/headers-seguranca-ausentes/`](vulnerabilidades/headers-seguranca-ausentes/writeup.md) |
 
 ## 🛡️ 6. Plano de Ação Técnica (Remediação)
 

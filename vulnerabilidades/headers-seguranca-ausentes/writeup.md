@@ -1,7 +1,7 @@
 # 🧱 Ausência de Cabeçalhos de Proteção HTTP
 
 **Fase:** 1 e 2 (Reconhecimento e Vulnerabilidades Preliminares)
-**CVSS v3.1:** `AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:L/A:N` — **Score 4.3** (Baixa)
+**CVSS v3.1:** `AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:L/A:N` — **Score 4.3** (Média)
 **Prioridade:** Média (exposição a Clickjacking)
 
 ## Descrição
