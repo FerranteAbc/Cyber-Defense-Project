@@ -69,7 +69,7 @@ A infraestrutura foi mapeada através da correlação entre cabeçalhos de respo
   **Write-up completo:** [`vulnerabilidades/cookie-sem-httponly/`](vulnerabilidades/cookie-sem-httponly/writeup.md)
 
 * **Exposição de Token de Sessão na URL (Risco Médio/Alto):**  
-  O sistema transmite parâmetros sensíveis via método `GET` na URL (`?pcaes=a205de9c60d3992e6296830743168a74`) contendo hash de sessão/transação. Isso compromete a confidencialidade ao gravar o identificador em logs de servidores intermediários, proxies e no histórico do navegador.
+  O sistema transmite parâmetros sensíveis via método `GET` na URL (`?pcaes=<hash-omitido>`) contendo hash de sessão/transação. Isso compromete a confidencialidade ao gravar o identificador em logs de servidores intermediários, proxies e no histórico do navegador.
   **Write-up completo:** [`vulnerabilidades/token-sessao-url/`](vulnerabilidades/token-sessao-url/writeup.md)
 
 * **Ausência de Cabeçalhos de Proteção:**  

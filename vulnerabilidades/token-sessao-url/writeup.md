@@ -6,7 +6,7 @@
 
 ## Descrição
 
-A aplicação transmite um parâmetro sensível via método **GET** na própria URL (`?pcaes=a205de9c60d3992e6296830743168a74`), contendo um hash associado à sessão/transação do usuário.
+A aplicação transmite um parâmetro sensível via método **GET** na própria URL (`?pcaes=<hash-omitido>`), contendo um hash associado à sessão/transação do usuário.
 
 ## Impacto
 
